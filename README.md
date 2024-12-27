@@ -2,7 +2,7 @@
 
 ### *Chris*
 
-•Calculator
+•To-Do List (Not-Final)
 
 •Expense Tracker
 
@@ -10,17 +10,11 @@
 
 •Notes
 
-•To Do List
-
 ### *Sidd*
 
 •Contact Book
 
-•Timer
-
 ### *Hari*
 
-•Quotes
-
-•Alarm
+•Alarm (not final)
 
