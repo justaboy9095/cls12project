@@ -68,7 +68,7 @@ def delete_note():
 def Notes():
     notes=open_notes()
     while True:
-        print("\n\n\n\n\n --- Notes --- \n\n 1 - Add Note\n 2 - View Notes\n 3 - Edit Note\n 4 - Delete Note\n 5 - Exit\n")
+        print("\n\n --- Notes --- \n\n 1 - Add Note\n 2 - View Notes\n 3 - Edit Note\n 4 - Delete Note\n 5 - Exit\n")
         choice = input(" Enter your choice (1-5): ")
         if choice.isnumeric():
             choice = int(choice)
