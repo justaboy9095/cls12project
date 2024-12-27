@@ -107,6 +107,6 @@ def update(list):
     file.truncate(0)
     file.seek(0)
     file.write("".join(list))
-    file.flush()
+    file.close()
             
 Notes()
