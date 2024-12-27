@@ -97,9 +97,9 @@ def open_notes():
         return f
     except FileNotFoundError:     #Create a new file of it does not exist
         print("\n ~~~ FILE NOT FOUND ~~~")
-        print("~~~ CREATED FILE Notes.txt ~~~")
         file = open("Notes.txt","w")
-        file.close
+        file.close()
+        print("~~~ CREATED FILE Notes.txt ~~~")
         open_notes()
 
 #UPDATE Notes.txt       
