@@ -1,6 +1,6 @@
-#Note Taking App
+import time
+import os
 
-#ADD NEW NOTE
 def add_note():
     notes = open_notes()
     note=input("Enter note:")
@@ -74,19 +74,28 @@ def Notes():
             choice = int(choice)
             if choice == 1:
                 add_note()
+                redirect()
             elif choice == 2:
                 view_notes()
+                redirect()
             elif choice == 3:
                 edit_note()
+                redirect()
             elif choice == 4:
                 delete_note()
+                redirect()
             elif choice == 5:
+                reset_notes()
+                redirect()
+            elif choice == 6:
                 print(" Exiting Notes...")
                 break
             else:
                 print("\n ~~~ Please select a valid option (1-5) ~~~")
+                redirect()
         else:
             print("\n ~~~ Please input a numeric value ~~~ ")
+            redirect()
 
 #OPEN Notes.txt
 def open_notes():
@@ -108,5 +117,18 @@ def update(list):
     file.seek(0)
     file.write("".join(list))
     file.close()
-            
+
+def reset_notes():
+    file = open("Notes.txt","w")
+    file.close()
+    print("\n ~~~ Notes reset successfully ~~~")
+
+
+def redirect():
+    input('Press Enter to return to menu > ')
+    print('\nReturning to menu...\n')
+    time.sleep(0.5)
+    os.system('cls')
+
+
 Notes()
