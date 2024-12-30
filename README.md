@@ -2,8 +2,6 @@
 
 ### *Chris*
 
-•To-Do List (Not-Final)
-
 •Expense Tracker
 
 ### *Pai*
@@ -16,5 +14,4 @@
 
 ### *Hari*
 
-•Alarm (not final)
-
+•To-Do List
