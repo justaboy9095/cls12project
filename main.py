@@ -7,13 +7,13 @@ import numpy as np
 
 ### Config for each funtion ###
 # Expense tracker
-def setup_database():
+def setup_database(dbname):
     global cursor,conn
     conn = con.connect(host='localhost', user='root', password='root')
 
     cursor = conn.cursor()
-    cursor.execute('CREATE DATABASE IF NOT EXISTS expense_tracker')
-    cursor.execute('USE expense_tracker')
+    cursor.execute(f'CREATE DATABASE IF NOT EXISTS {dbname}')
+    cursor.execute(f'USE {dbname}')
     cursor.execute('CREATE TABLE IF NOT EXISTS expenses (Id int primary key auto_increment, Date varchar(255), Item varchar(255), Category varchar(255), Amount float)')
 
 def setup_cat_file():
@@ -288,16 +288,6 @@ def delete_note():
 
 #Contact list
 
-def setup_database_con():
-    global cursor,conn
-    conn = con.connect(host='localhost', user='root', password='root')
-
-    cursor = conn.cursor()
-    cursor.execute('CREATE DATABASE IF NOT EXISTS contact_list')
-    cursor.execute('USE contact_list')
-    cursor.execute('CREATE TABLE IF NOT EXISTS contacts (Id int primary key auto_increment, Name varchar(255), Phone varchar(10), Email varchar(255))')
-
-
 def phone_check():
     phone=input('Enter the phone number: ')
     if len(phone)!=10:
@@ -404,7 +394,19 @@ def exit_fn(fn):
     time.sleep(1)
     os.system('cls')
 
-    
+def menu_prt(func):
+    print('Select a function: ')
+    for i in range(len(func)):
+        print(f'{i+1}- {func[i]}')
+    try:
+        choice=int(input('Select function: '))
+    except ValueError:
+        print('Invalid choice! Please enter the number beside the function.')
+        time.sleep(2)
+        os.system('cls')
+        return menu_prt(func)
+    return choice
+
 ###############################
 
 
@@ -414,48 +416,38 @@ def todo_list():
 def Notes():
     notes=open_notes()
     while True:
-        print("\n --- Notes --- \n\n 1 - Add Note\n 2 - View Notes\n 3 - Edit Note\n 4 - Delete Note\n 5 - Reset Notes\n 6 - Exit")
-        choice = input(" Enter your choice (1-6): ")
-        if choice.isnumeric():
-            choice = int(choice)
-            if choice == 1:
-                add_note()
-            elif choice == 2:
-                view_notes()
-            elif choice == 3:
-                edit_note()
-            elif choice == 4:
-                delete_note()
-            elif choice == 5:
-                reset_notes()
-            elif choice == 6:
-                return
-            else:
-                print("\n ~~~ Please select a valid option (1-5) ~~~")
+        print("\n --- Notes --- \n")
+        func=['Add Note','View Notes','Edit Note','Delete Note','Reset Notes','Exit']
+        choice = menu_prt(func)
+        if choice == 1:
+            add_note()
+        elif choice == 2:
+            view_notes()
+        elif choice == 3:
+            edit_note()
+        elif choice == 4:
+            delete_note()
+        elif choice == 5:
+            reset_notes()
+        elif choice == 6:
+            return
         else:
-            print("\n ~~~ Please input a numeric value ~~~ ")
-        redirect()
+            print("\n ~~~ Please select a valid option (1-5) ~~~")
+
+        if choice != 6:
+            redirect()
 
 def expense_trac():
     categories=['Food','Transport','Entertainment','Health','Education','Miscellaneous']
     func=['Show Expenses','Add Expense','Delete Expense','Edit Expense','Add/Edit Categories','Show Visualisation','Reset Entries' ,'Exit']
     flag=True
     
-    setup_database()
+    setup_database('expenses')
     setup_cat_file()
 
     while flag:
         print('---Expense Tracker---\n')
-        print('Select a function: ')
-        for i in range(len(func)):
-            print(f'{i+1}- {func[i]}')
-        try:
-            choice=int(input('Select function: '))
-        except ValueError:
-            print('Invalid choice! Please enter the number beside the function.')
-            time.sleep(2)
-            os.system('cls')
-            continue
+        choice=menu_prt(func)
         if choice==1:
             show_expenses()
         elif choice==2:
@@ -484,44 +476,31 @@ def expense_trac():
 def Contacts():
     fn=['Show Contacts', 'Search by Name', 'Add a contact', 'Edit a contact', 'Delete a contact', 'Reset data', 'Exit']
     flag=True
-    setup_database_con()
+    setup_database('contacts')
+    cursor.execute('CREATE TABLE IF NOT EXISTS contacts (Id int primary key auto_increment, Name varchar(255), Phone varchar(10), Email varchar(255))')
     while flag:
         print('---Contact List---')
-        for i in range(len(fn)):
-            print(f'{i+1}- {fn[i]}')
-        try:
-            ch=int(input('Enter choice: '))
-        except ValueError:
-            print('Invalid choice! Please enter the number beside the function.')
-            continue
+        ch=menu_prt(fn)
         if ch==1:
             show_contacts()
-            redirect()
-            conn.commit()
         elif ch==2:
             search_contact()
-            redirect()
-            conn.commit()
         elif ch==3:
             add_contact()
-            redirect()
-            conn.commit()
         elif ch==4:
             edit_contact()
-            redirect()
-            conn.commit()
         elif ch==5:
             delete_contact()
-            redirect()
-            conn.commit()
         elif ch==6:
             reset_con()
-            redirect()
-            conn.commit()
         elif ch==7:
             flag=False
         else:
             print('Invalid choice! Select between 1-7')
+        
+        if ch != 7 :
+            conn.commit()
+            redirect()
 
 menu = ['To-Do List','Notes','Expense Tracker','Contacts', 'Exit']
 
