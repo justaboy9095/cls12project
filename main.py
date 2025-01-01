@@ -506,16 +506,9 @@ menu = ['To-Do List','Notes','Expense Tracker','Contacts', 'Exit']
 
 while True:
     print('--- Personal Assistant ---')
-    for i in range(len(menu)):
-        print(f"{i+1}: {menu[i]}")
-    try:
-        ch=int(input('Select function: '))
-    except ValueError:
-        print('Invalid choice! Please enter the number beside the function.')
-        time.sleep(2)
-        os.system('cls')
-        continue
-    if ch != 5:
+    ch=menu_prt(menu)
+    t=ch > 0 and ch < 5
+    if t:
         start_fn(menu[ch-1])
     if ch == 1:
         todo_list()
@@ -529,11 +522,11 @@ while True:
         print('Exiting...')
         break
     else:
-        print("Invalid option, please try again.")
+        print("Invalid option, select between 1-5.")
         time.sleep(1)
         os.system('cls')
     
-    if ch != 5:
+    if t:
         exit_fn(menu[ch-1])
 
     
